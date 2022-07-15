@@ -1,0 +1,81 @@
+@import url(http://fonts.googleapis.com/css?family=Firacode);
+h1 {
+    font-family: 'Firacode', serif;
+    text-align: center;
+    color: #fff;
+    font-size: 36px;
+}
+ul {
+    list-style: none;
+}
+li{
+    font-family: 'Firacode', serif;
+    font-size: 2em;
+    color:aquamarine;
+}
+input[type=radio] {
+    border: 0px;
+    width: 20px;
+    height: 0em;
+}
+p {
+    font-family: 'Firacode', serif;
+}
+.quizContainer {
+    background-color: brown;
+    border-radius: 7px;
+    width: 70%;
+    margin: auto;
+    margin-top: 195px;
+    padding-top: 6px;
+    position: relative;
+}
+.nextButton {
+    border-radius: 7px;
+    width: 145px;
+    height: 50px;
+    text-align: center;
+    background-color: darkgoldenrod;
+    color: darksalmon;
+    font-family: 'Firacode', serif;
+    font-weight: bold;
+    position: relative;
+    margin: auto;
+    padding-top: 15px;
+}
+.question {
+    font-family: 'Firacode', serif;
+    font-size: 3em;
+    width: 80%;
+    height: auto;
+    margin: auto;
+    border-radius: 7px;
+    background-color: floralwhite;
+    text-align: center;
+    color: fuchsia;
+}
+.quizMessage {
+    background-color: peachpuff;
+    border-radius: 5px;
+    width: 40%;
+    margin: auto;
+    text-align: center;
+    padding: 3px;
+    font-family: 'Firacode', serif;
+    color:tomato;
+}
+.choiceList {
+    font-family: 'Verdana', serif;
+    color: lightcoral;
+    ;
+}
+.result {
+    width: 40%;
+    height: auto;
+    border-radius: 8px;
+    background-color: lightgreen;
+    margin: auto;
+    margin-bottom: 40px;
+    text-align: center;
+    font-family: 'Firacode', serif;
+}
