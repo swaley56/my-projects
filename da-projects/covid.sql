@@ -65,8 +65,104 @@ order by TotalDeathCount desc;
 
 -- global numbers
 
-select location, date, total_cases, total_deaths 
+select date, sum(new_cases) as totalcases, sum(new_deaths) as totaldeaths, sum(new_deaths)/sum(new_cases)* 100 as Deathpercentage -- total_cases, total_deaths, (total_deaths/ total_cases) * 100 as deathpercentage
+from coviddeaths
+where continent is not null
+group by date
+order by 1,2;
+-- total cases, new deaths and deathpercentage
 
+select sum(new_cases) as totalcases, sum(new_deaths) as totaldeaths, sum(new_deaths)/sum(new_cases)* 100 as Deathpercentage -- total_cases, total_deaths, (total_deaths/ total_cases) * 100 as deathpercentage
+from coviddeaths
+where continent is not null
+-- group by date
+order by 1,2;
 
+-- joining covideaths & covidvaccinations tables
 
+select *
+from portfolio_projects.coviddeaths de
+join portfolio_projects.covidvaccinations vc
+	on de.location = vc.location
+    and de.date = vc.date; 
+
+ -- looking at total population v vaccinations
  
+select de.continent, de.location, de.date, de.population, vc.new_vaccinations
+
+from portfolio_projects.coviddeaths de
+join portfolio_projects.covidvaccinations vc
+	on de.location = vc.location
+    and de.date = vc.date 
+where de.continent is not null
+order by 2,3;
+-- getting count differences on new vaccinations by location
+
+select de.continent, de.location, de.date, de.population, vc.new_vaccinations
+, sum(vc.new_vaccinations) over (partition by de.location Order by de.location, de.date) as rollingpeoplevaccinated
+
+from portfolio_projects.coviddeaths de
+join portfolio_projects.covidvaccinations vc
+	on de.location = vc.location
+    and de.date = vc.date 
+where de.continent is not null
+order by 2,3;
+
+-- using cte
+
+with PopvsVac (continent, location, date, population, new_vaccinations, rollingpeoplevaccinated)
+as (
+select de.continent, de.location, de.date, de.population, vc.new_vaccinations
+, sum(vc.new_vaccinations) over (partition by de.location Order by de.location, 
+de.date) as rollingpeoplevaccinated
+
+from portfolio_projects.coviddeaths de
+join portfolio_projects.covidvaccinations vc
+	on de.location = vc.location
+    and de.date = vc.date 
+where de.continent is not null
+-- order by 2,3
+)
+select *, (rollingpeoplevaccinated/ population) * 100 as percentagevaccinated
+from popvsvac;
+
+-- cte without date
+
+with PopvsVac (continent, location, population, new_vaccinations, rollingpeoplevaccinated)
+as (
+select de.continent, de.location, de.population, vc.new_vaccinations
+, sum(vc.new_vaccinations) over (partition by de.location Order by de.location) as rollingpeoplevaccinated
+
+from portfolio_projects.coviddeaths de
+join portfolio_projects.covidvaccinations vc
+	on de.location = vc.location
+    and de.date = vc.date 
+where de.continent is not null
+-- order by 2,3
+)
+select *, (rollingpeoplevaccinated/ population) * 100 as percentagevaccinated
+from popvsvac; 
+
+--  temp table
+
+-- create table PercentPopulationVaccinated
+-- ( continent nvarchar(255), 	
+-- location nvarchar(255)
+-- )
+
+-- insert into
+
+
+-- select de.continent, de.location, de.date, de.population, vc.new_vaccinations
+-- , sum(vc.new_vaccinations) over (partition by de.location Order by de.location, de.date) as rollingpeoplevaccinated
+
+-- from portfolio_projects.coviddeaths de
+-- join portfolio_projects.covidvaccinations vc
+-- 	on de.location = vc.location
+--     and de.date = vc.date 
+-- where de.continent is not null
+-- order by 2,3;
+
+-- 
+
+
